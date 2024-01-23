@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+
+def factorize(n)
+  factors = []
+  (2..Math.sqrt(n).to_i).each do |i|
+    if n % i == 0
+      factors << "#{i}=#{n/i}"
+      factors << "#{n/i}=#{i}" if i != n/i
+    end
+  end
+  factors
+end
+
+def main(file_path)
+  File.foreach(file_path) do |line|
+    number = line.chomp.to_i
+    factorizations = factorize(number)
+    factorizations.each { |f| puts "#{number}=#{f}" }
+  end
+end
+
+if ARGV.length != 1
+  puts "Usage: ruby factors.rb <file>"
+  exit(1)
+end
+
+file_path = ARGV[0]
+main(file_path)
+
